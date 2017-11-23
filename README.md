@@ -1,5 +1,8 @@
 # 学习nodejs搭建简单博客
 
+**运行方法**
+- 必须先启动MongoDB，然后才能通过`supervisor index`运行程序
+
 ## module.exports 和 exports的区别
 - module.exports 初始值为一个空对象{}
 - exports是指向module.exports的引用
@@ -47,7 +50,9 @@ router.get('/:name', function (req, res) {
 
 module.exports = router
 ```
-`res.render()`中的users表示的时模板的名字，第二个参数是传给模板的数据，这里传入的是name
+`res.render()`中的users表示的是模板的名字，第二个参数是传给模板的数据，这里传入的是name
+
+### res.set设置views
 
 ## ejs的使用
 使用模板引擎通常不是一个页面对应一个模板，而是把模板拆成可复用的模板片段组合使用。
@@ -83,6 +88,11 @@ app.listen(3000)
 ```
 
 通过`app.use`加载中间件，在中间件中通过`next`将请求传递到下一个中间件，`next`可以接受一个参数用于接受错误信息，如果使用了`next(error`，则会返回错误而不会传递到下一个中间件
+
+### app.locals 和 res.locals
+在模板中我们用到了 blog、user、success、error 变量，我们将 blog 变量挂载到 app.locals 下，将 user、success、error 挂载到 res.locals
+express 中有两个对象可用于模板的渲染：`app.locals` 和 `res.locals`. 
+在调用 res.render 的时候，express 合并（merge）了 3 处的结果后传入要渲染的模板，优先级：res.render 传入的对象> res.locals 对象 > app.locals 对象，所以 app.locals 和 res.locals 几乎没有区别，都用来渲染模板，使用上的区别在于：**app.locals 上通常挂载常量信息（如博客名、描述、作者信息），res.locals 上通常挂载变量信息，即每次请求可能的值都不一样（如请求者信息，res.locals.user = req.session.user）**
 
 ## config-lite模块
 不管是小项目还是大项目，将配置与代码分离是一个非常好的做法。我们通常将配置写到一个配置文件里，如 config.js 或 config.json ，并放到项目的根目录下。但实际开发时我们会有许多环境，如本地开发环境、测试环境和线上环境等，不同环境的配置不同（如：MongoDB 的地址），我们不可能每次部署时都要去修改引用 config.test.js 或者 config.production.js。config-lite 模块正是你需要的。
@@ -126,9 +136,16 @@ session 中间件会在 req 上添加 session 对象，即 req.session 初始值
 Before running mongod for the first time, ensure that the user account running mongod has read and write permissions for the directory.
 
 3. Run MongoDB
+输入`mongod`启动mongoDB
+
 
 ## 页面设计
 - 将页面拆分为组件，然后使用ejs的include方法将组件组合起来进行渲染
+
+
+## 使用到的模块
+- 加密
+  使用 `sha1`
 
 
 
