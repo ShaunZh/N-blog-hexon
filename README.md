@@ -1,5 +1,7 @@
 # 学习nodejs搭建简单博客
 
+
+
 **运行方法**
 - 必须先启动MongoDB，然后才能通过`supervisor index`运行程序
 

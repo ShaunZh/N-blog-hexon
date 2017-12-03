@@ -1,5 +1,4 @@
 const Post = require('../lib/mongo').Post
-<<<<<<< HEAD
 const marked = require('marked')
 
 // 将 post 的 content 从 markdown 转换成 html
@@ -17,14 +16,11 @@ Post.plugin('contentToHtml', {
     return post
   }
 })
-=======
->>>>>>> c5bf661bb9beef7e65682b1e28ffc6454bcfa867
 
 module.exports = {
   // 创建一篇文章
   create: function create (post) {
     return Post.create(post).exec()
-<<<<<<< HEAD
   },
   // 通过文章 id 获取一篇文章
   getPostById: function getPostById (postId) {
@@ -54,7 +50,5 @@ module.exports = {
     return Post
       .update({ _id: postId }, { $inc: { pv: 1 } })
       .exec()
-=======
->>>>>>> c5bf661bb9beef7e65682b1e28ffc6454bcfa867
   }
 }
